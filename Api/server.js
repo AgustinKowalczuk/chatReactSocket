@@ -19,7 +19,7 @@ const io = new SocketServer(server, {
 });
 
 //configuracion del puerto
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001 ;
 
 //Middlewares
 app.use(cors());
