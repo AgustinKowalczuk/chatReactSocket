@@ -1,11 +1,31 @@
-const path = require('path');
-const express = require('express');
+import express from "express";
+import morgan from "morgan";
+import { Server as SocketServer} from "socket.io";
+import http from 'http'
+import cors from 'cors'
+import * as dotenv from 'dotenv'
+dotenv.config()
+
+
 const app = express();
-// settings
-app. set('port', process. env. PORT || 3000);
-// static files
-// app.use(express.static(path.join(_dirname, 'public')));
-// start the server
-app. listen (app.get('port'), ( ) => {
-  console. log('server on port', app.get('port'));
+const server = http.createServer(app)
+const io = new SocketServer(server,{
+  cors:{
+    origin: '*'
+  }
+})
+
+const PORT= process.env.PORT || 8080
+
+app.use(cors());
+app.use(morgan("dev"));
+
+io.on('connection',(socket)=>{
+  console.log(`User Conected.
+  id: ${socket.id}`)
+  console.log(`Un usuario se conecto`)
+})
+
+server.listen(PORT, () => {
+  console.log(`Server on port http://localhost:${PORT}/`); 
 });
