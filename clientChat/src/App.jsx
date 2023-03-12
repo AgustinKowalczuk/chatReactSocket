@@ -5,13 +5,8 @@ import { useState, useEffect } from "react";
 const socket = io("http://localhost:3000/");
 
 function App() {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      body: "message test",
-      from: "user1",
-    },
-  ]);
+  const [message, setMessage] = useState(""); //Texto de mensaje
+  const [messages, setMessages] = useState([]); //Mensajes guardados {body:"el mensaje",from:id de la conexion}
 
   useEffect(() => {
     const receiveMessage = (message) => {
@@ -23,8 +18,9 @@ function App() {
     return () => {
       socket.off("message", receiveMessage); //desuscribe el evento
     };
-  }, [messages]);
+  }, [messages]); // Escuchando la modificacion de Mensajes
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     socket.emit("message", message);
